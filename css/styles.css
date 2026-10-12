@@ -1273,8 +1273,12 @@ a.row:focus-visible .arrow {
 }
 
 /* ---------- 7. Hero letters & the display fonts they swap to ---------- */
+/* Each letter keeps the box size measured in Geist (set by JS), so a swapped
+   display-font glyph never changes the layout; it is centred and may overflow. */
 .ch {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   white-space: pre;
   cursor: default;

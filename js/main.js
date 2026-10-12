@@ -611,10 +611,19 @@
   }
 
   /* Hero: every letter is its own span; hovering one swaps it to a random display font. */
+  /* Fix every letter's box to its Geist size, so swapping a letter to a wider
+     or taller display font never moves the rest of the page. */
   function lockLetterWidths() {
     if (fx.letterTimers.size) return; // wait until no letter is swapped
-    fx.allChars.forEach((ch) => (ch.style.width = ""));
-    fx.allChars.forEach((ch) => (ch.style.width = ch.offsetWidth + "px"));
+    fx.allChars.forEach((ch) => {
+      ch.style.width = "";
+      ch.style.height = "";
+    });
+    const sizes = fx.allChars.map((ch) => [ch.offsetWidth, ch.offsetHeight]);
+    fx.allChars.forEach((ch, i) => {
+      ch.style.width = sizes[i][0] + "px";
+      ch.style.height = sizes[i][1] + "px";
+    });
   }
 
   function swapLetter(span, hold) {
