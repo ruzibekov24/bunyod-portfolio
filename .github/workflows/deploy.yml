@@ -3,7 +3,8 @@
 # One-time setup (GitHub → this repo → Settings → Secrets and variables →
 # Actions → New repository secret):
 #   CLOUDFLARE_API_TOKEN   Cloudflare API token with "Account · Cloudflare Pages · Edit"
-#   CLOUDFLARE_ACCOUNT_ID  Your Cloudflare account ID
+#                          and "Account · Account Settings · Read"
+#   CLOUDFLARE_ACCOUNT_ID  Optional. Without it the account is looked up from the token.
 #
 # After that, every push to the branches below publishes the site.
 # It can also be started by hand: Actions → "Deploy to Cloudflare Pages" → Run workflow.
@@ -31,17 +32,38 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      # Read under another name; the step below exports CLOUDFLARE_ACCOUNT_ID for wrangler.
+      ACCOUNT_ID_SECRET: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
     steps:
       - name: Check Cloudflare secrets
         id: secrets
         run: |
-          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
-            echo "::notice::Skipping deploy: add the CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID repository secrets first."
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "::notice::Skipping deploy: add the CLOUDFLARE_API_TOKEN repository secret first."
             echo "ready=false" >> "$GITHUB_OUTPUT"
           else
             echo "ready=true" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Find the Cloudflare account
+        if: steps.secrets.outputs.ready == 'true'
+        run: |
+          account_id="$ACCOUNT_ID_SECRET"
+          if [ -z "$account_id" ]; then
+            response=$(curl -sS -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" "https://api.cloudflare.com/client/v4/accounts?per_page=50" || true)
+            account_id=$(echo "$response" | jq -r '.result[0].id // empty' 2>/dev/null || true)
+            count=$(echo "$response" | jq -r '.result | length? // 0' 2>/dev/null || echo 0)
+            if [ -z "$account_id" ]; then
+              echo "::error::Could not look up the Cloudflare account from the token. Give the token 'Account Settings: Read' as well, or add the CLOUDFLARE_ACCOUNT_ID secret."
+              echo "$response" | jq -c '.errors // .' || true
+              exit 1
+            fi
+            if [ "$count" -gt 1 ]; then
+              echo "::warning::The token can see $count accounts; using the first one. Add the CLOUDFLARE_ACCOUNT_ID secret to choose another."
+            fi
+            echo "Using account $(echo "$response" | jq -r '.result[0].name')"
+          fi
+          echo "CLOUDFLARE_ACCOUNT_ID=$account_id" >> "$GITHUB_ENV"
 
       - uses: actions/checkout@v4
         if: steps.secrets.outputs.ready == 'true'

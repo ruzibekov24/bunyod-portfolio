@@ -102,12 +102,12 @@ The site is set up for **<https://baxodirzoda.pages.dev>** (Cloudflare Pages).
 
 ### Automatic deploy with GitHub Actions (set up)
 
-`.github/workflows/deploy.yml` publishes the site to Cloudflare Pages on every push. It needs two repository secrets, added once in **GitHub → Settings → Secrets and variables → Actions → New repository secret**:
+`.github/workflows/deploy.yml` publishes the site to Cloudflare Pages on every push. It needs one repository secret, added once:
 
-| Secret | Where to get it |
-| --- | --- |
-| `CLOUDFLARE_API_TOKEN` | Cloudflare dashboard → **My Profile → API Tokens → Create Token → Create Custom Token**. Permission: **Account · Cloudflare Pages · Edit**. |
-| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare dashboard → **Workers & Pages**: the Account ID is shown on the right. |
+1. Create the Cloudflare token with this link (permissions are pre-filled: **Cloudflare Pages · Edit** and **Account Settings · Read**), then click **Continue to summary → Create Token** and copy it: <https://dash.cloudflare.com/profile/api-tokens?permissionGroupKeys=%5B%7B%22key%22%3A%22page%22%2C%22type%22%3A%22edit%22%7D%2C%7B%22key%22%3A%22account_settings%22%2C%22type%22%3A%22read%22%7D%5D&accountId=%2A&zoneId=all&name=bunyod-portfolio>
+2. Add it to GitHub: <https://github.com/ruzibekov24/bunyod-portfolio/settings/secrets/actions/new>. Name: `CLOUDFLARE_API_TOKEN`, Secret: the token.
+
+The workflow finds the Cloudflare account from the token. If the token can see several accounts, also add a `CLOUDFLARE_ACCOUNT_ID` secret (Cloudflare dashboard → `Ctrl + K` → *Copy account ID*).
 
 The first run creates the `baxodirzoda` Pages project. You can also start a deploy by hand: **Actions → Deploy to Cloudflare Pages → Run workflow**.
 
