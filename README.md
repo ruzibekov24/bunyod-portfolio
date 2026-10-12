@@ -100,7 +100,18 @@ To add a new brand icon, copy its SVG path from [simpleicons.org](https://simple
 
 The site is set up for **<https://baxodirzoda.pages.dev>** (Cloudflare Pages).
 
-### Cloudflare Pages (recommended)
+### Automatic deploy with GitHub Actions (set up)
+
+`.github/workflows/deploy.yml` publishes the site to Cloudflare Pages on every push. It needs two repository secrets, added once in **GitHub → Settings → Secrets and variables → Actions → New repository secret**:
+
+| Secret | Where to get it |
+| --- | --- |
+| `CLOUDFLARE_API_TOKEN` | Cloudflare dashboard → **My Profile → API Tokens → Create Token → Create Custom Token**. Permission: **Account · Cloudflare Pages · Edit**. |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare dashboard → **Workers & Pages**: the Account ID is shown on the right. |
+
+The first run creates the `baxodirzoda` Pages project. You can also start a deploy by hand: **Actions → Deploy to Cloudflare Pages → Run workflow**.
+
+### Cloudflare Pages (manual alternative)
 
 1. Sign in at <https://dash.cloudflare.com>, open **Workers & Pages**, then click **Create → Pages → Connect to Git**.
 2. Pick the `bunyod-portfolio` repository.
