@@ -1,4 +1,4 @@
-# Bunyod Baxodirzoa — Developer Portfolio
+# Bunyod Baxodirzoda — Developer Portfolio
 
 A personal portfolio website with a dark / light theme, smooth scroll animations, an English / Uzbek language switch, and responsive, accessible layouts.
 

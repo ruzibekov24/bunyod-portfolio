@@ -13,7 +13,7 @@
  *    youtube, email.
  */
 window.SITE_CONFIG = {
-  name: "Bunyod Baxodirzoa",
+  name: "Bunyod Baxodirzoda",
   firstName: "Bunyod",
   age: 15,
   defaultLanguage: "en",

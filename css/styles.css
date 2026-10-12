@@ -1,5 +1,5 @@
 /* ==========================================================
-   Bunyod Baxodirzoa | Portfolio styles
+   Bunyod Baxodirzoda | Portfolio styles
    1. Tokens & themes   2. Base   3. Background   4. Header
    5. Components        6. Sections   7. Letter styles   8. Motion
    ========================================================== */
@@ -268,8 +268,10 @@ main:focus,
 
 .brand {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   gap: 12px;
+  white-space: nowrap;
   font-size: 16px;
   font-weight: 500;
   letter-spacing: -0.01em;
@@ -291,6 +293,7 @@ main:focus,
   position: relative;
   padding: 6px 0;
   font-size: 15px;
+  white-space: nowrap;
 }
 
 .nav-link::after {
@@ -314,8 +317,10 @@ main:focus,
 
 .header-tools {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   gap: 10px;
+  white-space: nowrap;
 }
 
 .clock {
@@ -434,7 +439,7 @@ main:focus,
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   .nav {
     display: flex;
   }
