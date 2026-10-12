@@ -17,6 +17,7 @@ bunyod-portfolio/
 │   ├── icons.js            Brand icons (HTML, Python, GitHub, Telegram…)
 │   └── main.js             Behaviour: rendering, theme, menu, animations
 ├── vendor/                 GSAP, ScrollTrigger and Lenis (do not edit)
+├── robots.txt, sitemap.xml  For search engines
 ├── assets/
 │   ├── favicon.svg         Browser tab icon
 │   ├── apple-touch-icon.png
@@ -97,6 +98,16 @@ To add a new brand icon, copy its SVG path from [simpleicons.org](https://simple
 
 ## Deploy for free
 
+The site is set up for **<https://baxodirzoda.pages.dev>** (Cloudflare Pages).
+
+### Cloudflare Pages (recommended)
+
+1. Sign in at <https://dash.cloudflare.com>, open **Workers & Pages**, then click **Create → Pages → Connect to Git**.
+2. Pick the `bunyod-portfolio` repository.
+3. **Project name:** `baxodirzoda` (this becomes `baxodirzoda.pages.dev`; if Cloudflare shows a different address, the name was taken, so see *Moving to another address* below).
+4. **Production branch:** the branch with the site, **Framework preset:** None, **Build command:** leave empty, **Build output directory:** `/`.
+5. Click **Save and Deploy**. Every later push to that branch updates the site automatically.
+
 ### GitHub Pages
 
 1. Push this folder to a GitHub repository (the files must be at the top level of the repo, next to `index.html`).
@@ -111,12 +122,12 @@ To add a new brand icon, copy its SVG path from [simpleicons.org](https://simple
 3. Framework preset: **Other**. Leave the build command empty and the output directory as the project root.
 4. Click **Deploy**. Vercel gives you an address like `https://your-project.vercel.app`.
 
-### After deploying
+### Moving to another address
 
-Open `index.html` and, near the top:
+The full site address appears in a few places. If you deploy somewhere other than `baxodirzoda.pages.dev`, search for `baxodirzoda.pages.dev` and replace it in:
 
-1. Uncomment the `canonical` and `og:url` lines and put in your real address.
-2. Change `og:image` to the full address, e.g. `https://your-site/assets/og-image.png`. Telegram, Instagram and other apps need the full URL to show the preview picture.
+- `index.html`: the `canonical`, `og:url`, `og:image`, `twitter:image` and JSON-LD `url` lines near the top (Telegram, Instagram and other apps need the full URL to show the preview picture)
+- `robots.txt` and `sitemap.xml`
 
 Then open your live site and check that every link you added actually works.
 
@@ -143,4 +154,4 @@ Credits: design language based on [ilyos.pages.dev](https://ilyos.pages.dev). Fo
 - **Havolalar va loyihalar:** `js/config.js` faylini tahrirlang. Boʻsh qoldirilgan havola saytda tugma boʻlib chiqmaydi, oʻrnida "Hali qoʻshilmagan" yozuvi turadi.
 - **Matnlar va tarjima:** interfeys matnlari `js/i18n.js` faylida (`en` va `uz`).
 - **Ranglar:** `css/styles.css` boshidagi `--accent` va boshqa oʻzgaruvchilar (yorugʻ va qorongʻi mavzu uchun alohida).
-- **Joylash (bepul):** GitHub'da **Settings → Pages → Deploy from a branch → main / (root)** ni tanlang, yoki loyihani Vercel'ga import qiling.
+- **Joylash (bepul):** Cloudflare'da **Workers & Pages → Create → Pages → Connect to Git** ni bosing, shu reponi tanlang, **Project name** ga `baxodirzoda` yozing, Build command boʻsh, output `/`. Sayt <https://baxodirzoda.pages.dev> manzilida ochiladi.
