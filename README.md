@@ -50,7 +50,7 @@ Find `contacts` in `js/config.js` and paste your real links:
 
 ```js
 { id: "github", label: "GitHub", icon: "github", url: "https://github.com/your-real-username" },
-{ id: "email",  label: { en: "Email", uz: "Elektron pochta" }, icon: "mail", url: "you@example.com" },
+{ id: "email",  label: { en: "Email", uz: "Elektron pochta" }, icon: "email", url: "you@example.com" },
 ```
 
 - An empty `url: ""` shows a muted row that says **"Not added yet"**. It is not a link, so nobody gets sent to a fake account.
@@ -88,7 +88,7 @@ To add a new brand icon, copy its SVG path from [simpleicons.org](https://simple
 - If an Uzbek translation is missing, the English text is shown instead.
 - The visitor's language choice is remembered. You can link straight to the Uzbek version with `?lang=uz`, e.g. `https://your-site/?lang=uz`.
 
-> Note: `index.html` also contains the English text, so search engines and visitors without JavaScript still see it. If you change wording in `i18n.js`, update the same sentence in `index.html` too.
+> Note: `index.html` also contains the English hero and About text, so search engines and visitors without JavaScript still see it (Skills, Projects and Contact are built by JavaScript). If you change wording in `i18n.js`, update the same sentence in `index.html` too.
 
 ### Name, age, colors
 

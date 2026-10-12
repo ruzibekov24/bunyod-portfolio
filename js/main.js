@@ -48,6 +48,7 @@
     letterTimers: new Map(),
     loopTimer: 0,
     lastFont: -1,
+    loadedFonts: new Set(),
     scrubCtx: null,
     pinned: false,
     step: 0,
@@ -87,18 +88,34 @@
   }
 
   /* ---------------- URL helpers ---------------- */
+  /**
+   * Turns a link from the config into a safe absolute URL, or null.
+   * Accepts full addresses, a bare email ("me@example.com") and a bare
+   * domain ("github.com/name", https:// is added). Anything else, such as
+   * "@name", is ignored so it shows as "Not added yet" instead of a link
+   * that quietly points back to this site.
+   */
   function safeUrl(raw) {
     if (!raw || typeof raw !== "string") return null;
     let value = raw.trim();
     if (!value) return null;
-    // Allow a bare email address in the config.
     if (/^[^\s@:/]+@[^\s@/]+\.[^\s@/]+$/.test(value)) value = "mailto:" + value;
+    else if (/^[a-z0-9-]+(\.[a-z0-9-]+)+(\/\S*)?$/i.test(value)) value = "https://" + value;
+    let url = null;
     try {
-      const url = new URL(value, window.location.href);
-      return ["http:", "https:", "mailto:"].includes(url.protocol) ? url.href : null;
+      url = new URL(value); // no base URL: relative values are rejected
     } catch (e) {
+      url = null;
+    }
+    const allowed =
+      url &&
+      ["http:", "https:", "mailto:"].includes(url.protocol) &&
+      (url.protocol === "mailto:" || url.origin !== window.location.origin);
+    if (!allowed) {
+      console.warn('Link ignored: "' + raw + '". Use a full address such as https://github.com/username.');
       return null;
     }
+    return url.href;
   }
 
   function displayUrl(href) {
@@ -230,14 +247,18 @@
       step.dataset.index = String(index);
 
       const body = el("div", "step-body");
+      // Each "· part" is unbreakable, so a wrapped line never ends with "·".
       const tag = el("p", "mono step-tag", pad(index + 1));
+      const addPart = (text, className) => {
+        const part = el("span", "tag-part", "· ");
+        part.appendChild(className ? el("span", className, text) : document.createTextNode(text));
+        tag.append(" ");
+        tag.appendChild(part);
+      };
       const category = localize(project.category);
-      if (category) tag.append(" · " + category);
-      if (project.featured) tag.append(" · " + t("projects.featured"));
-      if (project.placeholder) {
-        tag.append(" · ");
-        tag.appendChild(el("span", "placeholder", t("projects.placeholder")));
-      }
+      if (category) addPart(category);
+      if (project.featured) addPart(t("projects.featured"));
+      if (project.placeholder) addPart(t("projects.placeholder"), "placeholder");
       body.appendChild(tag);
       body.appendChild(el("h3", "", title));
       body.appendChild(el("p", "lead muted step-desc", localize(project.description)));
@@ -601,9 +622,9 @@
     if (pending !== undefined) {
       window.clearTimeout(pending);
     } else {
-      const available = DISPLAY_FONTS.map((font, i) =>
-        document.fonts.check('1em "' + font + '"', FONT_SAMPLE) && i !== fx.lastFont ? i : -1
-      ).filter((i) => i >= 0);
+      const available = DISPLAY_FONTS.map((font, i) => (fx.loadedFonts.has(i) && i !== fx.lastFont ? i : -1)).filter(
+        (i) => i >= 0
+      );
       if (!available.length) return;
       const pick = available[Math.floor(Math.random() * available.length)];
       fx.lastFont = pick;
@@ -648,12 +669,17 @@
     $$("[data-line]", hero).forEach((line) => {
       const text = line.textContent || "";
       line.textContent = "";
-      for (const char of text) {
-        const span = el("span", "ch", char === " " ? " " : char);
-        line.appendChild(span);
-        fx.allChars.push(span);
-        if (/\p{L}/u.test(char)) fx.letters.push(span);
-      }
+      // Letters of one word sit in an unbreakable group, so lines only wrap between words.
+      text.split(/( +)/).forEach((part) => {
+        if (!part) return;
+        const group = part.trim() === "" ? line : line.appendChild(el("span", "hw"));
+        for (const char of part) {
+          const span = el("span", "ch", char === " " ? "\u00a0" : char);
+          group.appendChild(span);
+          fx.allChars.push(span);
+          if (/\p{L}/u.test(char)) fx.letters.push(span);
+        }
+      });
     });
 
     fx.letters.forEach((span) => {
@@ -688,7 +714,15 @@
   function initHero() {
     fx.hero = document.querySelector("[data-hero]");
     if (!fx.hero) return;
-    DISPLAY_FONTS.forEach((font) => document.fonts.load('1em "' + font + '"', FONT_SAMPLE).catch(() => {}));
+    // Remember which display fonts actually loaded (none if Google Fonts is blocked).
+    DISPLAY_FONTS.forEach((font, i) =>
+      document.fonts
+        .load('1em "' + font + '"', FONT_SAMPLE)
+        .then((faces) => {
+          if (faces && faces.length) fx.loadedFonts.add(i);
+        })
+        .catch(() => {})
+    );
     buildHero(true);
 
     gsap.from("[data-hero-fade]", { opacity: 0, y: 12, duration: 1, ease: "power3.out", stagger: 0.12, delay: 0.7 });
@@ -796,24 +830,42 @@
       show.classList.add("is-static");
       return;
     }
-    fx.pinned = true;
-    show.style.height = total * 90 + "vh";
-    show.style.height = total * 90 + "svh";
     setStep(0);
-    ScrollTrigger.create({
+    const trigger = ScrollTrigger.create({
       trigger: show,
       start: "top top",
       end: "bottom bottom",
       onUpdate: (self) => {
+        if (!fx.pinned) return;
         const index = Math.min(total - 1, Math.floor(self.progress * total));
         if (index !== fx.step) setStep(index);
       },
     });
 
+    // On very short screens (phones held sideways) the pinned layout cannot fit,
+    // so the projects are shown as a simple list instead.
+    const shortScreen = window.matchMedia("(max-height: 500px)");
+    const applyLayout = () => {
+      fx.pinned = !shortScreen.matches;
+      show.classList.toggle("is-static", !fx.pinned);
+      if (fx.pinned) {
+        show.style.height = total * 90 + "vh";
+        show.style.height = total * 90 + "svh";
+        trigger.enable();
+        setStep(fx.step);
+      } else {
+        show.style.height = "";
+        trigger.disable(false);
+      }
+      ScrollTrigger.refresh();
+    };
+    applyLayout();
+    if (shortScreen.addEventListener) shortScreen.addEventListener("change", applyLayout);
+
     // Keyboard users: tabbing to a link in a hidden project scrolls to that project.
     show.addEventListener("focusin", (event) => {
       const step = event.target.closest(".step");
-      if (!step) return;
+      if (!step || !fx.pinned) return;
       const index = Number(step.dataset.index);
       if (index === fx.step) return;
       const top = show.getBoundingClientRect().top + window.scrollY;
@@ -845,6 +897,7 @@
       initShow();
     } else {
       $$(".reveal").forEach((node) => node.classList.add("in"));
+      $$("[data-hint]").forEach((node) => (node.hidden = true)); // the letter effect is off
       initShow();
     }
 

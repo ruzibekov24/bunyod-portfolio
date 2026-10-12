@@ -93,7 +93,7 @@ window.TRANSLATIONS = {
       notAdded: "Not added yet",
     },
     footer: {
-      copyright: "© {year} {name} · Uzbekistan",
+      copyright: "© {year} {name}\u00a0·\u00a0Uzbekistan",
       backToTop: "Back to top ↑",
     },
     noscript: "Turn on JavaScript to see this section.",
@@ -103,14 +103,14 @@ window.TRANSLATIONS = {
     meta: {
       title: "{name} | Yosh dasturchi va veb-sayt yaratuvchisi",
       description:
-        "{name} portfoliosi: veb-saytlar yaratadigan va HTML, CSS, JavaScript hamda Python bilan dasturlashni oʻrganayotgan Oʻzbekistonlik yosh dasturchi.",
+        "{name} portfoliosi: veb-saytlar yaratadigan va HTML, CSS, JavaScript hamda Python bilan dasturlashni oʻrganayotgan oʻzbekistonlik yosh dasturchi.",
     },
     a11y: {
       skip: "Asosiy mazmunga oʻtish",
       home: "{name}, sahifa boshiga",
       mainNav: "Asosiy menyu",
       language: "Til",
-      theme: "Qorongʻi va yorugʻ mavzuni almashtirish",
+      theme: "Qora va oq mavzu oʻrtasida almashtirish",
       newTab: "(yangi oynada ochiladi)",
     },
     header: {
@@ -134,7 +134,7 @@ window.TRANSLATIONS = {
       role2: "Veb-sayt yaratuvchisi",
       role3: "Texnologiya ishqibozi",
       text:
-        "Men Oʻzbekistonlik yosh dasturchiman. Veb-saytlar yaratish, dasturlashni oʻrganish va ijodiy gʻoyalarni raqamli loyihalarga aylantirishni yaxshi koʻraman.",
+        "Men oʻzbekistonlik yosh dasturchiman. Veb-saytlar yaratish, dasturlashni oʻrganish va ijodiy gʻoyalarni raqamli loyihalarga aylantirishni yaxshi koʻraman.",
       ctaProjects: "Loyihalarimni koʻrish",
       ctaContact: "Bogʻlanish",
       hint: "Harflar ustiga kursorni olib boring",
@@ -142,9 +142,9 @@ window.TRANSLATIONS = {
     about: {
       label: "( Men kimman )",
       scrub:
-        "Men {firstName}, Oʻzbekistonlik {age} yoshli dasturchiman. HTML, CSS va JavaScript bilan [veb-saytlar] yarataman, [Python] tilida dasturlar va oʻyinlar yozaman, boʻsh vaqtimni esa [Minecraft] va oʻyinlarga bagʻishlayman.",
+        "Men {firstName}, oʻzbekistonlik {age} yoshli dasturchiman. HTML, CSS va JavaScript bilan [veb-saytlar] yarataman, [Python] tilida dasturlar va oʻyinlar yozaman, boʻsh vaqtimni esa [Minecraft] va oʻyinlarga bagʻishlayman.",
       more:
-        "Men hali oʻrganyapman va bu menga yoqadi. Har bir loyiha menga yangi narsa oʻrgatadi, va men doim keyingi vosita, til yoki gʻoyani sinab koʻrishga qiziqaman.",
+        "Men hali oʻrganyapman va bu menga yoqadi. Har bir loyiha menga yangi narsa oʻrgatadi va men doim keyingi vosita, til yoki gʻoyani sinab koʻrishga qiziqaman.",
       fact1: "yoshdaman, Oʻzbekistondanman",
       fact2Value: "4",
       fact2: "ta texnologiya bilan ishlayman: HTML, CSS, JavaScript va Python",
@@ -161,14 +161,14 @@ window.TRANSLATIONS = {
       title: "Loyihalarim",
       lead: "Men yaratgan va ustida ishlayotgan loyihalar. Tafsilotlar, skrinshotlar va havolalar tez orada qoʻshiladi.",
       counter: "Loyiha",
-      placeholder: "Namuna",
+      placeholder: "Vaqtinchalik",
       featured: "Asosiy loyiha",
       techPending: "Texnologiyalar: tez orada qoʻshiladi",
       linksPending: "Havolalar: tez orada",
       liveDemo: "Jonli demo",
       github: "GitHub",
       notPublished: "hali joylanmagan",
-      imageAltPlaceholder: "Namuna rasm: skrinshot tez orada qoʻshiladi",
+      imageAltPlaceholder: "Vaqtinchalik rasm: skrinshot tez orada qoʻshiladi",
       imageAlt: "{title} skrinshoti",
     },
     contact: {
@@ -178,7 +178,7 @@ window.TRANSLATIONS = {
       notAdded: "Hali qoʻshilmagan",
     },
     footer: {
-      copyright: "© {year} {name} · Oʻzbekiston",
+      copyright: "© {year} {name}\u00a0·\u00a0Oʻzbekiston",
       backToTop: "Yuqoriga ↑",
     },
     noscript: "Bu boʻlimni koʻrish uchun JavaScriptni yoqing.",

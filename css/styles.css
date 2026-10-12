@@ -15,6 +15,7 @@
   --accent: #c4262e;
   --accent-ink: #fff;
   --logo: #8c1118;
+  --line-solid: color-mix(in srgb, var(--ink) 15%, var(--bg));
 
   --font-sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -388,8 +389,20 @@ main:focus,
 }
 
 .no-js .lang-switch,
-.no-js .theme-btn {
+.no-js .theme-btn,
+.no-js .clock,
+.no-js .hint,
+.no-js .show-count,
+.no-js .progress,
+.no-js .show .browser {
   display: none;
+}
+
+.no-js .show-pin {
+  position: static;
+  display: block;
+  height: auto;
+  padding-top: 0;
 }
 
 /* Mobile menu (a <details> element, so it also works without JS) */
@@ -710,6 +723,18 @@ a.row:focus-visible .arrow {
   align-items: center;
 }
 
+/* Letters of one word (built by JS) wrap together, never mid-word */
+.hero-title .hw {
+  display: inline-flex;
+  white-space: nowrap;
+}
+
+@media (max-width: 359.98px) {
+  .hero-title {
+    font-size: 14vw;
+  }
+}
+
 .hero-roles {
   display: flex;
   flex-wrap: wrap;
@@ -757,7 +782,7 @@ a.row:focus-visible .arrow {
   margin-top: 48px;
 }
 
-@media (hover: none) {
+@media (hover: none), (prefers-reduced-motion: reduce) {
   .hint {
     display: none;
   }
@@ -817,13 +842,16 @@ a.row:focus-visible .arrow {
   margin: 56px 0 18px;
 }
 
+/* Hairlines come from each cell's 1px shadow, so an empty slot in the
+   last row (e.g. 3 tools in 2 columns) stays plain instead of grey. */
 .cell-grid {
   display: grid;
   gap: 1px;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--r);
-  background: var(--line);
+  background: var(--bg);
+  transition: background 0.4s var(--ease);
 }
 
 .cell {
@@ -832,6 +860,7 @@ a.row:focus-visible .arrow {
   gap: 14px;
   padding: clamp(22px, 2.6vw, 32px);
   background: var(--bg);
+  box-shadow: 0 0 0 1px var(--line-solid);
   transition: background 0.4s var(--ease);
 }
 
@@ -961,6 +990,10 @@ a.row:focus-visible .arrow {
   margin-bottom: 18px;
 }
 
+.step-tag .tag-part {
+  white-space: nowrap;
+}
+
 .step-tag .placeholder {
   color: var(--accent);
 }
@@ -1085,6 +1118,9 @@ a.row:focus-visible .arrow {
 
   .browser {
     order: -1;
+    justify-self: center;
+    width: min(100%, max(160px, calc((100vh - 440px) * 1.6)));
+    width: min(100%, max(160px, calc((100svh - 440px) * 1.6)));
   }
 
   .show-count {
@@ -1302,6 +1338,12 @@ a.row:focus-visible .arrow {
 :root:not([data-theme="dark"]) .sk-28,
 :root:not([data-theme="dark"]) .sk-30 {
   color: var(--ink);
+}
+
+/* …and the pale pastel ones get a thin dark outline */
+:root:not([data-theme="dark"]) :is(.sk-5, .sk-7, .sk-10, .sk-15, .sk-21, .sk-22, .sk-29, .sk-31) {
+  -webkit-text-stroke: 0.025em #111;
+  paint-order: stroke fill;
 }
 
 /* Words of the scroll-scrubbed About text */
