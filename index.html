@@ -1,13 +1,12 @@
 <!doctype html>
-<html lang="en" class="no-js">
+<html lang="en" data-theme="dark" class="no-js">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bunyod Baxodirzoa | Aspiring Developer &amp; Web Creator</title>
   <meta name="description" content="Portfolio of Bunyod Baxodirzoa, a young developer from Uzbekistan who builds websites and explores programming with HTML, CSS, JavaScript and Python.">
   <meta name="author" content="Bunyod Baxodirzoa">
-  <meta name="theme-color" content="#05070d">
-  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#050505">
 
   <!-- After you deploy, set your real site address here and in og:url / og:image below. -->
   <!-- <link rel="canonical" href="https://YOUR-SITE-ADDRESS/"> -->
@@ -27,14 +26,31 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 
+  <!-- Saved theme is applied before the page paints, so there is no flash. -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      root.className = "js";
+      try {
+        var theme = localStorage.getItem("theme");
+        if (theme === "light" || theme === "dark") root.setAttribute("data-theme", theme);
+      } catch (e) {}
+    })();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap">
+  <!-- Display fonts for the hero letter effect, subset to just the letters used. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nabla&amp;family=Honk&amp;family=Bungee+Spice&amp;family=Bungee+Shade&amp;family=Monoton&amp;family=Faster+One&amp;family=Rubik+Glitch&amp;family=Rubik+Wet+Paint&amp;family=Rubik+Spray+Paint&amp;family=Rubik+Burned&amp;family=Rubik+Bubbles&amp;family=Rubik+Mono+One&amp;family=Abril+Fatface&amp;family=Special+Elite&amp;family=Press+Start+2P&amp;family=Black+Ops+One&amp;family=Permanent+Marker&amp;family=UnifrakturCook:wght@700&amp;family=Modak&amp;family=Bagel+Fat+One&amp;family=Tilt+Prism&amp;family=Foldit&amp;family=Sixtyfour&amp;family=Londrina+Shadow&amp;family=Climate+Crisis&amp;family=Shrikhand&amp;family=Lilita+One&amp;family=Luckiest+Guy&amp;family=Kumar+One+Outline&amp;family=Bungee+Inline&amp;family=Rubik+Marker+Hatch&amp;family=Tilt+Neon&amp;family=Bowlby+One&amp;family=Emilys+Candy&amp;family=Rye&amp;family=Fascinate+Inline&amp;text=HhIiMmBbUuNnYyOoDdSsAaLlEe&amp;display=swap">
   <link rel="stylesheet" href="css/styles.css">
 
-  <script>document.documentElement.className = "js";</script>
+  <script src="vendor/lenis.min.js" defer></script>
+  <script src="vendor/gsap.min.js" defer></script>
+  <script src="vendor/ScrollTrigger.min.js" defer></script>
   <script src="js/config.js" defer></script>
   <script src="js/i18n.js" defer></script>
+  <script src="js/icons.js" defer></script>
   <script src="js/main.js" defer></script>
 
   <script type="application/ld+json">
@@ -50,184 +66,170 @@
   </script>
 </head>
 <body>
+  <div class="bg-fixed" aria-hidden="true"><i class="bg-grid"></i><i class="bg-lit"></i><i class="bg-grain"></i></div>
+
   <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
 
-  <header class="site-header" data-header>
-    <nav class="nav container" aria-label="Main" data-i18n-attr="aria-label:a11y.mainNav">
-      <a class="brand" href="#top" aria-label="Bunyod, back to top" data-i18n-attr="aria-label:a11y.home">
-        <span class="brand-mark" aria-hidden="true">B</span>
-        <span class="brand-name" aria-hidden="true">Bunyod<span class="accent">.</span></span>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a href="#top" class="brand" aria-label="Bunyod Baxodirzoa, back to top" data-i18n-attr="aria-label:a11y.home">
+        <svg class="brand-logo" viewBox="20 14 28 34" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M22 16h12.5c6 0 9.5 3 9.5 7.6 0 3.2-1.8 5.4-4.6 6.3 3.6.8 5.8 3.4 5.8 7.1 0 5.4-4 9-10.6 9H22Zm7 5.6v7.1h4.6c2.6 0 4.1-1.3 4.1-3.6s-1.5-3.5-4.1-3.5Zm0 12.4v6.6h5.2c2.8 0 4.3-1.2 4.3-3.3S37 34 34.2 34Z"/></svg>
+        <span class="brand-name" aria-hidden="true">Bunyod Baxodirzoa</span>
       </a>
 
-      <div class="nav-menu" id="nav-menu" data-nav-menu>
-        <ul class="nav-links">
-          <li><a href="#about" data-nav-link data-i18n="nav.about">About</a></li>
-          <li><a href="#skills" data-nav-link data-i18n="nav.skills">Skills</a></li>
-          <li><a href="#projects" data-nav-link data-i18n="nav.projects">Projects</a></li>
-          <li><a href="#contact" data-nav-link data-i18n="nav.contact">Contact</a></li>
-        </ul>
-      </div>
+      <nav class="nav" aria-label="Main" data-i18n-attr="aria-label:a11y.mainNav">
+        <a href="#about" class="nav-link" data-nav-link data-i18n="nav.about">About</a>
+        <a href="#skills" class="nav-link" data-nav-link data-i18n="nav.skills">Skills</a>
+        <a href="#projects" class="nav-link" data-nav-link data-i18n="nav.projects">Projects</a>
+        <a href="#contact" class="nav-link" data-nav-link data-i18n="nav.contact">Contact</a>
+      </nav>
 
-      <div class="nav-actions">
+      <div class="header-tools">
+        <span class="mono clock"><span data-i18n="header.place">Uzbekistan</span> <span data-clock>--:--</span></span>
         <div class="lang-switch" role="group" aria-label="Language" data-i18n-attr="aria-label:a11y.language">
           <button type="button" lang="en" title="English" data-lang="en" aria-pressed="true">EN</button>
           <button type="button" lang="uz" title="Oʻzbekcha" data-lang="uz" aria-pressed="false">UZ</button>
         </div>
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" data-nav-toggle>
-          <span class="visually-hidden" data-i18n="nav.menu">Menu</span>
-          <span class="nav-toggle-icon" aria-hidden="true"></span>
+        <button type="button" class="icon-btn theme-btn" data-theme-toggle aria-label="Switch between dark and light theme" data-i18n-attr="aria-label:a11y.theme">
+          <span data-i18n="header.theme">Dark / Light</span>
         </button>
+        <details class="menu" data-menu>
+          <summary class="icon-btn" data-i18n="nav.menu">Menu</summary>
+          <div class="menu-panel">
+            <a href="#about" data-i18n="nav.about">About</a>
+            <a href="#skills" data-i18n="nav.skills">Skills</a>
+            <a href="#projects" data-i18n="nav.projects">Projects</a>
+            <a href="#contact" data-i18n="nav.contact">Contact</a>
+          </div>
+        </details>
       </div>
-    </nav>
+    </div>
   </header>
 
   <main id="main" tabindex="-1">
     <!-- ======================= HERO ======================= -->
-    <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="container hero-grid">
-        <div class="hero-content">
-          <p class="eyebrow mono" data-i18n="hero.eyebrow">// hello, world</p>
-          <h1 class="hero-title" id="hero-title">
-            <span data-i18n="hero.titleBefore">Hi, I'm </span><span class="gradient-text">Bunyod</span><span data-i18n="hero.titleAfter">.</span>
-          </h1>
-          <p class="hero-roles">
-            <span class="roles-inner">
-              <span class="role" data-i18n="hero.role1">Aspiring Developer</span>
-              <span class="role" data-i18n="hero.role2">Web Creator</span>
-              <span class="role" data-i18n="hero.role3">Technology Enthusiast</span>
-            </span>
-          </p>
-          <p class="hero-text" data-i18n="hero.text">I'm a young developer from Uzbekistan who enjoys building websites, exploring programming, and turning creative ideas into digital projects.</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#projects">
-              <span data-i18n="hero.ctaProjects">Explore My Projects</span>
-              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
-            </a>
-            <a class="btn btn-ghost" href="#contact" data-i18n="hero.ctaContact">Contact Me</a>
-          </div>
+    <section class="hero" id="top">
+      <div class="wrap">
+        <p class="meta" data-hero-fade>
+          <span class="pill"><span class="dot" aria-hidden="true"></span><span data-i18n="hero.status">Open to new projects</span></span>
+          <span class="meta-sep" aria-hidden="true">·</span>
+          <b data-i18n="hero.place">Uzbekistan</b>
+        </p>
+        <h1 class="hero-title" data-hero>
+          <span class="visually-hidden" data-i18n="hero.titleA11y">Hi, I’m Bunyod.</span>
+          <span data-line aria-hidden="true" data-i18n="hero.line1">Hi, I’m</span>
+          <span data-line aria-hidden="true" data-i18n="hero.line2">Bunyod.</span>
+        </h1>
+        <p class="hero-roles" data-hero-fade>
+          <span data-i18n="hero.role1">Aspiring Developer</span><span class="sep" aria-hidden="true">|</span><span data-i18n="hero.role2">Web Creator</span><span class="sep" aria-hidden="true">|</span><span data-i18n="hero.role3">Technology Enthusiast</span>
+        </p>
+        <p class="hero-sub" data-hero-fade data-i18n="hero.text">I'm a young developer from Uzbekistan who enjoys building websites, exploring programming, and turning creative ideas into digital projects.</p>
+        <div class="hero-cta" data-hero-fade>
+          <a href="#projects" class="btn"><span data-i18n="hero.ctaProjects">Explore My Projects</span> <span aria-hidden="true">↓</span></a>
+          <a href="#contact" class="btn btn-ghost" data-i18n="hero.ctaContact">Contact Me</a>
         </div>
-
-        <div class="hero-visual" aria-hidden="true">
-          <svg class="hero-cube" viewBox="0 0 120 120">
-            <path class="cube-top" d="M60 10 104 34 60 58 16 34Z"/>
-            <path class="cube-left" d="M16 34 60 58v52L16 86Z"/>
-            <path class="cube-right" d="M104 34 60 58v52l44-24Z"/>
-            <path class="cube-pixels" d="M38 34l11 6 11-6-11-6Zm22 12 11-6 11 6-11 6Zm0-24 11 6-11 6-11-6Z"/>
-          </svg>
-          <div class="code-card glass">
-            <div class="code-card-bar">
-              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-              <span class="code-file mono">bunyod.js</span>
-            </div>
-<pre class="code mono"><code><span class="k">const</span> <span class="v">bunyod</span> = {
-  <span class="p">role</span>: <span class="s">"aspiring developer"</span>,
-  <span class="p">from</span>: <span class="s">"Uzbekistan"</span>,
-  <span class="p">speaks</span>: [<span class="s">"Uzbek"</span>, <span class="s">"English (B1)"</span>],
-  <span class="p">stack</span>: [<span class="s">"HTML"</span>, <span class="s">"CSS"</span>, <span class="s">"JS"</span>, <span class="s">"Python"</span>],
-  <span class="p">likes</span>: [<span class="s">"Minecraft"</span>, <span class="s">"gaming"</span>, <span class="s">"tech"</span>],
-  <span class="p">learning</span>: <span class="b">true</span>,
-};<span class="caret"></span></code></pre>
-          </div>
-        </div>
+        <p class="mono hint" data-hero-fade data-hint data-i18n="hero.hint">Hover over the letters</p>
       </div>
     </section>
 
     <!-- ======================= ABOUT ======================= -->
-    <section class="section" id="about" aria-labelledby="about-title">
-      <div class="container">
-        <header class="section-head reveal">
-          <p class="eyebrow mono" data-i18n="about.eyebrow">01 / About</p>
-          <h2 class="section-title" id="about-title" data-i18n="about.title">A little about me</h2>
-        </header>
+    <section class="section-about" id="about" aria-labelledby="about-title">
+      <div class="wrap">
+        <h2 class="mono label" id="about-title" data-i18n="about.label">( Who I am )</h2>
+        <p class="scrub-text" data-scrub data-i18n-rich="about.scrub">I’m Bunyod, a 15-year-old developer from Uzbekistan. I build <span class="chip">websites</span> with HTML, CSS and JavaScript, write <span class="chip">Python</span> programs and games, and spend my free time on <span class="chip">Minecraft</span> and gaming.</p>
+        <p class="lead muted about-more reveal" data-i18n="about.more">I’m still learning, and I like it that way. Every project teaches me something new, and I’m always curious about the next tool, language or idea to try.</p>
 
-        <div class="about-grid reveal">
-          <div class="about-text">
-            <p data-i18n="about.p1">I'm Bunyod, a 15-year-old developer from Uzbekistan. I enjoy building websites, exploring programming and turning creative ideas into real digital projects.</p>
-            <p data-i18n="about.p2">On the web I work with HTML, CSS and JavaScript, and I use Python for programming projects like games. Many of my ideas come from the things I enjoy most: Minecraft, gaming and technology.</p>
-            <p data-i18n="about.p3">I'm still learning, and I like it that way. Every project teaches me something new, and I'm always curious about the next tool, language or idea to try.</p>
+        <div class="facts-grid reveal">
+          <div>
+            <p class="fact" data-config="age">15</p>
+            <p class="muted" data-i18n="about.fact1">years old, from Uzbekistan</p>
           </div>
-
-          <dl class="facts">
-            <div class="fact glass">
-              <dt data-i18n="about.factAge">Age</dt>
-              <dd data-config="age">15</dd>
-            </div>
-            <div class="fact glass">
-              <dt data-i18n="about.factLocation">Location</dt>
-              <dd data-i18n="about.factLocationValue">Uzbekistan</dd>
-            </div>
-            <div class="fact glass">
-              <dt data-i18n="about.factLanguages">Languages</dt>
-              <dd data-i18n="about.factLanguagesValue">Uzbek, English (B1)</dd>
-            </div>
-            <div class="fact glass">
-              <dt data-i18n="about.factInterests">Interests</dt>
-              <dd data-i18n="about.factInterestsValue">Minecraft, gaming, programming, technology</dd>
-            </div>
-          </dl>
+          <div>
+            <p class="fact" data-i18n="about.fact2Value">4</p>
+            <p class="muted" data-i18n="about.fact2">technologies I build with: HTML, CSS, JavaScript and Python</p>
+          </div>
+          <div>
+            <p class="fact" data-i18n="about.fact3Value">B1</p>
+            <p class="muted" data-i18n="about.fact3">English level; I also speak Uzbek</p>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ======================= SKILLS ======================= -->
     <section class="section" id="skills" aria-labelledby="skills-title">
-      <div class="container">
-        <header class="section-head reveal">
-          <p class="eyebrow mono" data-i18n="skills.eyebrow">02 / Skills</p>
-          <h2 class="section-title" id="skills-title" data-i18n="skills.title">Skills &amp; tools</h2>
-          <p class="section-lead" data-i18n="skills.lead">The languages and tools I use to build my projects.</p>
-        </header>
-
-        <div class="skills-group reveal">
-          <h3 class="group-title mono" data-i18n="skills.technologies">Technologies</h3>
-          <ul class="skills-grid" data-render="technologies">
-            <noscript><li data-i18n="noscript">Turn on JavaScript to see this section.</li></noscript>
-          </ul>
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2 class="h-xl" id="skills-title" data-i18n="skills.title">Skills &amp; tools</h2>
         </div>
+        <p class="lead muted section-lead reveal" data-i18n="skills.lead">The languages and tools I use to build my projects.</p>
 
-        <div class="skills-group reveal">
-          <h3 class="group-title mono" data-i18n="skills.tools">Tools</h3>
-          <ul class="tools-grid" data-render="tools"></ul>
-        </div>
+        <h3 class="mono label group-label" data-i18n="skills.technologies">( Technologies )</h3>
+        <ul class="cell-grid cols-4 reveal" data-render="technologies">
+          <noscript><li class="muted">Turn on JavaScript to see this section.</li></noscript>
+        </ul>
+
+        <h3 class="mono label group-label" data-i18n="skills.tools">( Tools )</h3>
+        <ul class="cell-grid cols-3 reveal" data-render="tools"></ul>
       </div>
     </section>
 
+    <!-- ================== VELOCITY MARQUEE ================== -->
+    <!-- Decorative: the same technologies are listed in Skills above. -->
+    <div class="vm" aria-hidden="true">
+      <div class="vm-row" data-dir="l" data-render="marquee-a"></div>
+      <div class="vm-row out" data-dir="r" data-render="marquee-b"></div>
+    </div>
+
     <!-- ======================= PROJECTS ======================= -->
     <section class="section" id="projects" aria-labelledby="projects-title">
-      <div class="container">
-        <header class="section-head reveal">
-          <p class="eyebrow mono" data-i18n="projects.eyebrow">03 / Projects</p>
-          <h2 class="section-title" id="projects-title" data-i18n="projects.title">My projects</h2>
-          <p class="section-lead" data-i18n="projects.lead">Things I have built and am working on. More details are on the way.</p>
-        </header>
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2 class="h-xl" id="projects-title" data-i18n="projects.title">My projects</h2>
+          <p class="mono" data-project-total>( 05 )</p>
+        </div>
+        <p class="lead muted section-lead reveal" data-i18n="projects.lead">Things I’ve built and am working on. Details, screenshots and links are on the way.</p>
+      </div>
 
-        <ul class="projects-grid reveal" data-render="projects">
-          <noscript><li>Turn on JavaScript to see this section.</li></noscript>
-        </ul>
+      <div class="show" data-show>
+        <div class="show-pin wrap">
+          <div class="show-text">
+            <p class="mono show-count"><span data-i18n="projects.counter">Project</span> <span data-count>01 / 05</span></p>
+            <ol class="steps" data-render="projects">
+              <noscript><li class="muted">Turn on JavaScript to see this section.</li></noscript>
+            </ol>
+            <div class="progress" data-progress aria-hidden="true"></div>
+          </div>
+          <div class="browser" aria-hidden="true">
+            <div class="browser-bar">
+              <i></i><i></i><i></i>
+              <span class="mono browser-url" data-url></span>
+            </div>
+            <div class="browser-screen" data-render="screens"></div>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- ======================= CONTACT ======================= -->
-    <section class="section contact" id="contact" aria-labelledby="contact-title">
-      <div class="container">
-        <header class="section-head section-head--center reveal">
-          <p class="eyebrow mono" data-i18n="contact.eyebrow">04 / Contact</p>
-          <h2 class="section-title" id="contact-title" data-i18n="contact.title">Let's build something together</h2>
-          <p class="section-lead" data-i18n="contact.lead">Have a project idea, a question, or want to work together? Reach out on any of the platforms below.</p>
-        </header>
+    <section class="section section-contact" id="contact" aria-labelledby="contact-title">
+      <div class="wrap">
+        <p class="mono label" data-i18n="contact.label">( Have a project idea? )</p>
+        <h2 class="cta-title" id="contact-title" data-render="contact-headline">Let’s build something together.</h2>
+        <p class="lead muted contact-lead" data-i18n="contact.lead">Have a project idea, a question, or want to work together? Message me on any platform below.</p>
 
-        <ul class="contact-grid reveal" data-render="contacts">
-          <noscript><li>Turn on JavaScript to see this section.</li></noscript>
+        <ul class="rows contact-rows reveal" data-render="contacts">
+          <noscript><li class="muted">Turn on JavaScript to see this section.</li></noscript>
         </ul>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="container footer-inner">
-      <p data-i18n="footer.copyright">© 2026 Bunyod Baxodirzoa. All rights reserved.</p>
-      <p class="footer-built" data-i18n="footer.built">Built with HTML, CSS &amp; JavaScript.</p>
-      <a class="footer-top" href="#top" data-i18n="footer.backToTop">Back to top</a>
+    <div class="wrap footer-inner">
+      <p class="muted" data-i18n="footer.copyright">© 2026 Bunyod Baxodirzoa · Uzbekistan</p>
+      <ul class="footer-links" data-render="footer-links"></ul>
+      <a href="#top" class="nav-link" data-i18n="footer.backToTop">Back to top ↑</a>
     </div>
   </footer>
 </body>
